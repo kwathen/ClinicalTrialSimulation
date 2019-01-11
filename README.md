@@ -1,8 +1,7 @@
-# Introduction to Bayesian Clinical Trial Simulation
-This repository is an introduction to software development in R for simulation of clinical trials.
- 
-Example 1: A fixed sample design that only conducts the analysis at the end of the study.
+# Simulating Adaptive Clinical Trials - Where to Start and How to Expand
+This repository is an introduction to simulation of adaptive clinical trials.  You can find YouTube videos that utilize this 
+repository and explain each of the examples.  The videos are part of the ASA Biopharmaceutical Section located at https://www.youtube.com/channel/UC3Tkg5b3QR8fXWsTBYerCng
 
-Example 2: Incorporate the adaptive randomization feature and make the time to observe the patients' outcome random.
+Code Template - The starting point for the example.  Only code examples, not complete functions. 
 
-Example 3: Extend the previous examples to include early stopping and a ramp up in accrual.  
+Example 1: A fixed sample design that only conducts the analysis at the end of the study.  This example will serve as the starting points for developing more complex simulations. 
