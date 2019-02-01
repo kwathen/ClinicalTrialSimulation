@@ -23,7 +23,7 @@ SimulateSingleTrial <- function( nMaxQtyOfPats, dQtyPatsPerMonth,
     
     #Simulate arrival times and times the outcomes are observed
     vStartTime  <- SimulateArrivalTimes(dQtyPatsPerMonth, nMaxQtyOfPats )
-    vObsTime    <- vStartTime + 1  # Note: In this example we observe the outcome 1 month after they enrol (or are treated)
+    vObsTime    <- vStartTime + 1  # Note: In this example we observe the outcome 1 month after they enroll (or are treated)
     
 
     #For loop to randomize and simulate the patient outcomes.

@@ -34,7 +34,7 @@ source( "Randomizer.R")
 # Define the input variables.  Helpful to define variables so they can easily be modified without
 # changing values in the program
 
-nMaxQtyOfPats       <- 200      # The maximum quantity of patients to enrol in the study that will be fairly randomized
+nMaxQtyOfPats       <- 200      # The maximum quantity of patients to enroll in the study that will be fairly randomized
 dQtyPatsPerMonth    <- 7.5      # Number of patients that will be enrolled each month, expectation is 7.5 patients per month
 
 #Priors: Q_S ~ Beta( 0.2, 0.8 ); Q_E ~ Beta( 0.2, 0.8 )

@@ -20,7 +20,7 @@
 # environment rather than a local function due to a typo
 remove( list=ls() )
 
-#Source the files in the project - These files just contain the function sturctures to be implemented
+#Source the files in the project - These files just contain the function structures to be implemented
 source( "SimulatePatientOutcome.R")
 source( "SimulateTrial.R")
 source( "AnalysisMethods.R")
@@ -31,7 +31,7 @@ source( "Randomizer.R")
 # Define the input variables.  Helpful to define variables so they can easily be modified without
 # changing values in the program
 
-nMaxQtyOfPats       <- 200      # The maximum quantity of patients to enrol in the study that will be fairly randomized
+nMaxQtyOfPats       <- 200      # The maximum quantity of patients to enroll in the study that will be fairly randomized
 dQtyPatsPerMonth    <- 7.5      # Number of patients that will be enrolled each month, expectation is 7.5 patients per month
 
 nQtyReps            <- 10       # The number of virtual trials to simulate

@@ -1,7 +1,6 @@
-################################################################################################################################################
-#
+####### File Header ################################################################################################################# 
 #   Description:        This file is to demonstrate how Example 1 could be done in a much simpler fashion but it would be difficult
-#                       to extend this version the accomodate all the adaptive features planned.  
+#                       to extend this version the accommodate all the adaptive features planned.  
 #
 #   Analysis Method:    Bayesian Beta-Binomial model
 #                       Assume patients receiving treatment j = S or E have a response probability Q_j
@@ -12,23 +11,26 @@
 #                       Otherwise, no treatment is selected
 #
 #   Author: J. Kyle Wathen, PhD
-#           kylewathen@gmail.com
-################################################################################################################################################
-
+#           KyleWathen@gmail.com
 #####################################################################################################################################
+
+#####################################################################################################################################.
 #   Define any functions needed
-#####################################################################################################################################
+#####################################################################################################################################.
 
-#####################################################################################################################################
+#####################################################################################################################################.
 #    Name:  		Inequality Calculator – Compare distributions of various types, Beta
 #    Keywords:  	Inequality calculator, compare posteriors, posterior probability
 #    Description:   Suppose you have q1 ~ Beta(a, b), q2 ~ Beta( c, d) and you want to calculate Pr( q1 > q2 ).  
 #
-#    R code was coppied from AnalysisModthods.R
-#####################################################################################################################################
+#    R code was copied from AnalysisMethods.R
+#####################################################################################################################################.
 
 # Compare 2 Beta distributions
-# calculate the probability that one beta dist. is greater than another
+# Calculate the probability that one beta dist. is greater than another
+# Q1 ~ Beta( dA1, dB1 )
+# Q2 ~ Beta( dA2, dB2 )
+# This function computes the Probability( Q1 > Q2 )
 IneqCalcBeta <- function(dA1,dB1,dA2,dB2) 
 {
     ## 
@@ -48,11 +50,14 @@ IneqCalcBetaVect <- function( vParams )
 }
 
 
-#####################################################################################################################################
-# Start the simple approach for simulating example 1
-#####################################################################################################################################
+#####################################################################################################################################.
+##### Example 1 - Simple approach for simulating example 1                                                                      #####
+#####################################################################################################################################.
 
-nMaxQtyOfPats   <- 200      # The maximum quantity of patients to enrol in the study that will be fairly randomized
+
+##### Setup Simulation Parameters #####
+
+nMaxQtyOfPats   <- 200      # The maximum quantity of patients to enroll in the study that will be equally randomized
 
 #Priors: Q_S ~ Beta( 0.2, 0.8 ); Q_E ~ Beta( 0.2, 0.8 )
 dPriorAS        <- 0.2  
@@ -71,6 +76,11 @@ dTrueRespRateS  <- 0.2      # A true response rate of 0.2 for S
 dTrueRespRateE  <- 0.4      # A true response rate of 0.4 for E
 
 nQtyReps        <- 1000     # The number of virtual trials to simulate
+
+##### Start Simulation  #####
+# Because this is a fixed sample trial we only need to simulate the number of patients in each treatment
+# the number of responders/non-responders on each treatment and then compute the posterior probabilities.
+# Note: this approach would be much more difficult if the design included frequent monitoring. 
 
 #Simulate the number of patients on each treatment
 vQtyPatsE       <- rbinom( nQtyReps, nMaxQtyOfPats, 0.5 )   #Fairly randomize patients, each element in the vector represents 
@@ -93,14 +103,14 @@ vPostBE         <- dPriorBE + vFailE
 
 mPostParams     <- cbind( vPostAE, vPostBE, vPostAS, vPostBS )  #The order combined into columns means we will calculate Pr( Q_E > E_S | data ) 
 vPostProbs      <- apply( mPostParams, 1, IneqCalcBetaVect )
-#Note - if you are not familar with apply, this could be accomplised via a for or repeat loop
+#Note - if you are not familiar with apply, this could be accomplished via a for or repeat loop
 
-#Summarize based on vPostProbs
+#Summarize based on vPostProbs - eg compute the probability the values were above the cutoff. 
 vProbSelE       <- mean( ifelse( vPostProbs > dPU, 1, 0 ))
 vProbSelS       <- mean( ifelse( ( 1 -vPostProbs ) > dPU, 1, 0 ))
 vProbNoTrt      <- 1.0 - vProbSelE  - vProbSelS
 
-
+##### Print the Operating Characteristics #####
 print( paste( "The probability the trial will select no treatment is ", vProbNoTrt ))
 print( paste( "The probability the trial will select S is ", vProbSelS ))
 print( paste( "The probability the trial will select E is ", vProbSelE ))
