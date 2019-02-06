@@ -70,6 +70,10 @@ PrintSummary <- function( vResults, mQtyPats )
     vConfInt1       <- round( quantile( mQtyPats[,1], c( 0.025, 0.975)), 1)
     vConfInt2       <- round( quantile( mQtyPats[,2], c( 0.025, 0.975)), 1)
     
+    plot( density(mQtyPats[,1]), type='l', lwd = 2, xlab = "# of Patients", ylab="Density", "Sample Size\n S (Solid), E (Dashed)")
+    lines( density(mQtyPats[,2]), lty=2,  col=2,lwd=2)
+    abline( h=seq(0, 0.1, 0.01), v=seq( 0,200, 20), lty=9, col=8)
+    
     vTotalSampleSize <- mQtyPats[,1] + mQtyPats[,2]
     dMeanSampleSize  <- round( mean( vTotalSampleSize), 1 ) 
     vConfIntSS       <- round( quantile( vTotalSampleSize, c(0.025, 0.975)), 1)

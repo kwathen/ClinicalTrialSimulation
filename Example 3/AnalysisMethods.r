@@ -21,7 +21,7 @@ RunAnalysis <- function(  dCurrentTime, vPatOutcome, vTreat, vObsTime, dPriorAS,
     for( iPat in 1:nQtyPats )
     {
         #We only want to include patient outcomes that were observed prior to dCurrentTime
-        #Example 3 - We are adapting the randomization probabilities based on the calculations.  
+        #Example 4 - We are adapting the randomization probabilities based on the calculations.  
         #            Since the patients outcomes are not observed immediately we must check that 
         #            the vObsTime[ iPat ] <= dCurrent time, eg the patient's outcome was observed
         #            before the current patient enrolled.   This idea is useful in many contexts
@@ -76,4 +76,7 @@ IneqCalcBeta <- function(dA1,dB1,dA2,dB2)
 }
 
 #Helper functions 
-fBetaIneqCalc <- function(x, dA1, dB1, dA2, dB2){x**(dA1-1) * (1-x)**(dB1-1) * pbeta(x,dA2,dB2) / beta(dA1,dB1)}
+fBetaIneqCalc <- function(x, dA1, dB1, dA2, dB2)
+{
+   return( x**(dA1-1) * (1-x)**(dB1-1) * pbeta(x,dA2,dB2) / beta(dA1,dB1) )
+}
