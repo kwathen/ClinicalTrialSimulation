@@ -34,7 +34,7 @@ SimulateArrivalTimes <- function( vPatsPerMonth, nMaxQtyPats )
         #There is a ramp up in accrual.  
         #General idea: SimulateAMonthOfAccrualTimes will simulate 1 month of accrual and a loop will keep concatenate the results
         dStartMonth <- 0
-        nMonth     <- 1
+        nMonth      <- 1
         while( length( vTimes ) < nMaxQtyPats  )
         {
                 
@@ -58,22 +58,21 @@ SimulateArrivalTimes <- function( vPatsPerMonth, nMaxQtyPats )
 #   Function print out basic simulation results
 #####################################################################################
 
-PrintSummary <- function( vResults, mQtyPats )
+PrintSummary <- function( vResults, mQtyPats, vStopEarly  )
 {
+    nQtyReps <- length( vResults )
+    
+    #Compute some simple summaries.  This code block could be easily abstracted to a function to print result.
+    # By creating the ComputeOC() function to compute the summaries it will be easier to test and use from other places
     print( paste( "The probability the trial will select no treatment is ", length( vResults[ vResults == 1])/ nQtyReps))
     print( paste( "The probability the trial will select S is ", length( vResults[ vResults == 2])/ nQtyReps))
     print( paste( "The probability the trial will select E is ", length( vResults[ vResults == 3])/ nQtyReps))
     print( paste( "The probability the trial will stop early is ", length( vStopEarly[ vStopEarly == 1] )/ nQtyReps))
+
     
-    #Compute some simple summaries.  This code block could be easily abstracted to a function to print result.
-    vAveQtyPats     <- round( apply( mQtyPats, 2, mean), 1)
-    vConfInt1       <- round( quantile( mQtyPats[,1], c( 0.025, 0.975)), 1)
-    vConfInt2       <- round( quantile( mQtyPats[,2], c( 0.025, 0.975)), 1)
-    
-    plot( density(mQtyPats[,1]), type='l', lwd = 2, xlab = "# of Patients", ylab="Density", "Sample Size\n S (Solid), E (Dashed)")
-    lines( density(mQtyPats[,2]), lty=2,  col=2,lwd=2)
-    abline( h=seq(0, 0.1, 0.01), v=seq( 0,200, 20), lty=9, col=8)
-    
+    vAveQtyPats      <- round( apply( mQtyPats , 2, mean), 1)
+    vConfInt1        <- round( quantile( mQtyPats[,1], c( 0.025, 0.975)), 1)
+    vConfInt2        <- round( quantile( mQtyPats[,2], c( 0.025, 0.975)), 1)
     vTotalSampleSize <- mQtyPats[,1] + mQtyPats[,2]
     dMeanSampleSize  <- round( mean( vTotalSampleSize), 1 ) 
     vConfIntSS       <- round( quantile( vTotalSampleSize, c(0.025, 0.975)), 1)
@@ -81,6 +80,42 @@ PrintSummary <- function( vResults, mQtyPats )
     print( paste("The average number of patient on S is ", vAveQtyPats[1], " ( ", vConfInt1[1], ", ", vConfInt1[2], " )", sep=""))
     print( paste("The average number of patient on E is ", vAveQtyPats[2], " ( ", vConfInt2[1], ", ", vConfInt2[2], " )", sep=""))
     print( paste("The average number of patient enrolled and 95% CI are ", dMeanSampleSize, " ( ", vConfIntSS[1], ", ", vConfIntSS[2], " )", sep=""))
+    
+    
+    PlotSampleSizeDist( mQtyPats )
 }
+
+# Function to compute the operating characteristics 
+ComputeOC <- function( vResults, mQtyPats, vStopEarly )
+{
+    nQtyReps <- length( vResults )
+    
+    
+    dProbNoTreatment <- length( vResults[ vResults == 1])/ nQtyReps
+    dProbSelectS     <- length( vResults[ vResults == 2])/ nQtyReps
+    dProbSelectE     <- length( vResults[ vResults == 3])/ nQtyReps
+    dProbStopEarly   <- length( vStopEarly[ vStopEarly == 1] )/ nQtyReps
+    
+    #Compute some simple summaries.  
+    vAveQtyPats      <- round( apply( mQtyPats, 2, mean), 1)
+    vConfInt1        <- round( quantile( mQtyPats[,1], c( 0.025, 0.975)), 1)
+    vConfInt2        <- round( quantile( mQtyPats[,2], c( 0.025, 0.975)), 1)
+    vTotalSampleSize <- mQtyPats[,1] + mQtyPats[,2]
+    dMeanSampleSize  <- round( mean( vTotalSampleSize), 1 ) 
+    vConfIntSS       <- round( quantile( vTotalSampleSize, c(0.025, 0.975)), 1)
+    return( list( dProbNoTreatment = dProbNoTreatment, 
+                  dProbSelectS     = dProbSelectS, 
+                  dProbSelectE     = dProbSelectE, 
+                  dProbStopEarly   = dProbStopEarly, 
+                  dAveQtyPatsS     = vAveQtyPats[1], 
+                  dAveQtyPatsE     = vAveQtyPats[2],
+                  dAveQtyPatsSLL   = vConfInt1[1],
+                  dAveQtyPatsSUL   = vConfInt1[2],
+                  dAveQtyPatsSUL   = vConfInt2[1],
+                  dAveQtyPatsSUL   = vConfInt2[2],
+                  dMeanSampleSize  = dMeanSampleSize))
+    
+}
+
 
 

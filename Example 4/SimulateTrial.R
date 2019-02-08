@@ -9,6 +9,8 @@
 #           dRandProbTrtE = 1 - dRandProbTrtS
 #       nQtyPats: The quantity of patients in trial (must be >= nMinQtyOfPats before adapting)
 #       nMinQtyOfPats: The minimum quantity of patients before adapting begins.
+#		dTrueRespRateS - The true response rate for S
+#       dTrueRespRateE - True response rate for E
 ################################################################################################################################################
 
 SimulateSingleTrial <- function( nMaxQtyOfPats, nMinQtyOfPats, vQtyPatsPerMonth,

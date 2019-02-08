@@ -17,7 +17,8 @@ CheckStoppingRule <- function( nMinQtyOfPats, dPU, nQtyOfPats, dProbSGrtE )
 
 
 
-
+#  Return the decision based on the posterior probabilities.
+#	Returns: 1--> No treatment selected, 2 --> S was selected, 3 --> E was selected
 MakeDecision <- function( dPU, dProbSGrtE, dProbEGrtS )
 {
     nDecision <- 1
