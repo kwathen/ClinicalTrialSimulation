@@ -48,10 +48,10 @@ body <- dashboardBody(
         ),
         
         tabPanel("Selection Probabilities",
-                 plotOutput("ctrlPlotOCs", height="600px")
+                 plotOutput("ctrlPlotOCs", height="400px")
         ),
         tabPanel("Sample Size",
-                 plotOutput("ctrlPlotSampSize", height="600px")
+                 plotOutput("ctrlPlotSampSize", height="400px")
         ),
         tabPanel( "Virtual Trials",
                   selectInput( "ddlVirtualTrialIDN", "Select a virtual trial ID to view", c("1","2","3")),
@@ -68,7 +68,7 @@ body <- dashboardBody(
                                plotOutput("ctrlPlotVT4")
                       ),
                       tabPanel("Posterior Probability",
-                               plotOutput("ctrlPlotVT5",height="700px")
+                               plotOutput("ctrlPlotVT5",height="400px")
                       )
                   )
         )

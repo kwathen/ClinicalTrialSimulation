@@ -22,8 +22,8 @@ PlotVirtualTrial <- function( lVirtualTrial, nTrialID = NA, bPlotResults = TRUE 
     # Plot the trial enrollment and available data
     gPlot <- ggplot( dfVT, aes( y= vPatientIndex)) + ylim(0,nMaxQtyOfPats)
     gPlot <- gPlot + theme_minimal(base_size=gBaseSize)  + theme(legend.position = "top", plot.title=element_text( hjust=0.5, size=16))
-    gPlot <- gPlot + geom_line( aes(  x = vStartTime, colour="Enrollment"))
-    gPlot <- gPlot + geom_line( aes(  x = sort(vObsTime), colour="Outcome"))
+    gPlot <- gPlot + geom_line( aes(  x = vStartTime, colour="Enrollment"), size =1.5)
+    gPlot <- gPlot + geom_line( aes(  x = sort(vObsTime), colour="Outcome"), size =1.5)
     gPlot <- gPlot + ggtitle(paste("Virtual Trial Enrollment",strTrialID))
     gPlot <- gPlot + labs( x= "Time (Months)", y="Number of Patients", hajust =0.5)
     gPlot <- gPlot + geom_hline( yintercept = c( nMinQtyOfPats), linetype="dotted")
@@ -40,8 +40,8 @@ PlotVirtualTrial <- function( lVirtualTrial, nTrialID = NA, bPlotResults = TRUE 
     gPlot <- ggplot( dfVT, aes( y= vPatientIndex)) 
     gPlot <- gPlot + theme_minimal(base_size=gBaseSize ) + theme(legend.position = "top", plot.title=element_text( hjust=0.5, size=16))
     gPlot <- gPlot + ylim(0, max(dfVT$vPatientIndex))
-    gPlot <- gPlot + geom_line( aes(  x = vStartTime, colour="Enrollment"))
-    gPlot <- gPlot + geom_line( aes(  x = sort(vObsTime), colour="Outcome"))
+    gPlot <- gPlot + geom_line( aes(  x = vStartTime, colour="Enrollment"), size =1.5)
+    gPlot <- gPlot + geom_line( aes(  x = sort(vObsTime), colour="Outcome"), size =1.5)
     gPlot <- gPlot + labs(title=paste("Virtual Trial Enrollment",strTrialID), x= "Time (Months)", y="Number of Patients")
     gPlot <- gPlot + geom_hline( yintercept = c( nMinQtyOfPats), linetype="dotted")
     gPlot <- gPlot + scale_colour_manual("", 
@@ -56,8 +56,8 @@ PlotVirtualTrial <- function( lVirtualTrial, nTrialID = NA, bPlotResults = TRUE 
     gPlot <- ggplot( dfVT, aes( x= vStartTime)) 
     gPlot <- gPlot + theme_minimal(base_size=gBaseSize) + theme(legend.position = "top", plot.title=element_text( hjust=0.5, size=16))
     gPlot <- gPlot + ylim(0, max(dfVT$vPatientIndex))
-    gPlot <- gPlot + geom_step( aes(  y = vQtyPatsOnE, colour="# on E"))
-    gPlot <- gPlot + geom_step( aes(  y = vQtyPatsOnS, colour="# on S"))
+    gPlot <- gPlot + geom_step( aes(  y = vQtyPatsOnE, colour="# on E"), size =1.5)
+    gPlot <- gPlot + geom_step( aes(  y = vQtyPatsOnS, colour="# on S"), size =1.5)
     gPlot <- gPlot + labs(title=paste("Virtual Trial Randomization",strTrialID), x= "Time (Months)", y="Number of Patients")
     gPlot <- gPlot + geom_hline( yintercept = c( nMinQtyOfPats), linetype="dotted")
     gPlot <- gPlot + scale_colour_manual("", 
@@ -71,7 +71,7 @@ PlotVirtualTrial <- function( lVirtualTrial, nTrialID = NA, bPlotResults = TRUE 
     ##### Plot Randomization Probability #####
     # Plot the trial enrollment and available data
     gPlot <- ggplot( dfVT,  aes( x= vPatientIndex, y = vRandProbE) ) + xlim(0,nMaxQtyOfPats) + ylim(0,1)
-    gPlot <- gPlot + geom_line(colour="black") + geom_point( colour="blue")
+    gPlot <- gPlot + geom_line(colour="black", size =0.5) + geom_point( colour="blue", size =1.7)
     gPlot <- gPlot + geom_hline( yintercept = c( dMinRandProb, 1-dMinRandProb, 0.5), linetype="dashed")
     gPlot <- gPlot + theme_minimal(base_size=gBaseSize)  + theme(legend.position = "top", plot.title=element_text( hjust=0.5, size=16))
     gPlot <- gPlot + geom_vline( xintercept = c( nMinQtyOfPats), linetype="dotted")
@@ -94,7 +94,7 @@ PlotVirtualTrial <- function( lVirtualTrial, nTrialID = NA, bPlotResults = TRUE 
     dfVT$vTmpIndx      <- vTmpIndx
     dfVT$vTmpProbEGrtS <- vTmpProbEGrtS 
     gPlot <- ggplot( dfVT,  aes( x= vTmpIndx, y =vTmpProbEGrtS) ) + xlim(0,nMaxQtyOfPats) 
-    gPlot <- gPlot + geom_line(colour="black") + geom_point( colour="blue")
+    gPlot <- gPlot + geom_line(colour="black", size =0.5) + geom_point( colour="blue", size =1.75)
     gPlot <- gPlot + geom_hline( yintercept = c( dPU, 1-dPU, 0.5), linetype="dashed")
     gPlot <- gPlot + theme_minimal( base_size=gBaseSize)  + theme(legend.position = "top", plot.title=element_text( hjust=0.5, size=16))
     gPlot <- gPlot + geom_vline( xintercept = c( nMinQtyOfPats), linetype="dotted")
@@ -105,6 +105,7 @@ PlotVirtualTrial <- function( lVirtualTrial, nTrialID = NA, bPlotResults = TRUE 
                                    x=c(nMinQtyOfPats,rep(nMaxQtyOfPats,length(vTmpIndx)-1)))
     gPlot <- gPlot + geom_ribbon(  ymax = 1.05, ymin = dPU, alpha=0.2,
                                    x=c(nMinQtyOfPats,rep(nMaxQtyOfPats,length(vTmpIndx)-1)))
+   
    
     lPlots[[5]] <- gPlot
     
@@ -127,9 +128,9 @@ PlotOCs <- function(  lScenarioResults )
     
     dfOCs <- data.frame( stat = factor(c( "Pr( Select None )", "Pr( Select E )", "Pr( Select S )",  "Pr( Stop Early )"),
                                        levels =c( "Pr( Select None )", "Pr( Select E )", "Pr( Select S )",  "Pr( Stop Early )")), 
-                         Probability =c(   lOCs$dProbNoTreatment, lOCs$dProbSelectE, lOCs$dProbSelectE, lOCs$dProbStopEarly ) )
+                         Probability =c(   lOCs$dProbNoTreatment, lOCs$dProbSelectE, lOCs$dProbSelectS, lOCs$dProbStopEarly ) )
     
-    gPlot <- ggplot( dfOCs, aes( x =stat, y = Probability, fill = stat))  +
+    gPlot <- ggplot( dfOCs, aes( x =stat, y = Probability, fill = stat))  + ylim( 0, 1)+
                 geom_bar( stat="identity", show.legend = FALSE)    + theme_minimal( base_size=gBaseSize) +
                 scale_fill_manual( values = c("yellow", "green","red", "black")) +
                 labs(title="", x= "", y="Probability")
@@ -149,8 +150,8 @@ PlotSampleSizeDist <- function( mQtyPats )
     vConfInt1   <- round( quantile( mQtyPats[,1], c( 0.025, 0.975)), 1)
     vConfInt2   <- round( quantile( mQtyPats[,2], c( 0.025, 0.975)), 1)
     abline( v = vMean, col = c(1,2), lty = 3)
-    abline( v = vConfInt1, col = c(1,1), lty = 3)
-    abline( v = vConfInt2, col = c(2,2), lty = 3)
+    abline( v = vConfInt1, col = c(1,1), lty = 3, lwd=1.5)
+    abline( v = vConfInt2, col = c(2,2), lty = 3, lwd=1.5)
     
 }
 

@@ -113,6 +113,15 @@ server <- function(input, output,session) {
     {
         updateNumericInput( session, "nMinQtyOfPats", value=20)
         updateNumericInput( session, "dPU", value=0.95)
+        updateNumericInput( session, "dExponent", value=1.0)
+        updateNumericInput( session, "dPriorAS", value=0.2)
+        updateNumericInput( session, "dPriorBS", value=0.8)
+        updateNumericInput( session, "dPriorAE", value=0.2)
+        updateNumericInput( session, "dPriorBE", value=0.8)
+        updateNumericInput( session, "dPriorBE", value=0.8)
+        updateNumericInput( session, "dTrueRespRateS", value=0.2)
+        updateNumericInput( session, "dTrueRespRateE", value=0.2)
+        
         
     }
     

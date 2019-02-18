@@ -97,6 +97,12 @@
 #
 #   Author: J. Kyle Wathen, PhD
 #           kylewathen@gmail.com
+#
+#   Known Bugs:
+#       1.  The plot of the OCs seems to be incorrect.
+#           Resolution: In PlotVirtualTrial.R - Funciton: PlotOCs - When the dataframe is created the 
+#           probabilities were added the probability of selecting E twice.   
+#           Status: Fixed
 ######################################################################################################################.
 
 # The next line will remove the contents of the work space.  This is done to 
@@ -146,7 +152,7 @@ dExponent           <- 1.0      # Exponent used to "tune" the randomization; dPr
 # Create the "true" parameter values for a scenario -  for this example we are simulating the null case, eg both treatments
 # have the same true response rate.  
 dTrueRespRateS      <- 0.2      # A true response rate of 0.2 for S
-dTrueRespRateE      <- 0.2      # A true response rate of 0.2 for E
+dTrueRespRateE      <- 0.3      # A true response rate of 0.2 for E
 
 vQtyPatsPerMonth    <- c( 1, 1.5, 2, 3, 5, 7, 10, 15, 22, 25 )  #Each element represents the expected # of patients recruited, then the recruitment stays 25/month
 
@@ -212,3 +218,5 @@ PlotVirtualTrial( lVirtualTrials[[ nTrialID ]], nTrialID = nTrialID )
 nTrialID <- 6 #Interesting trial because it goes from favoring S to favoring E and back to S and back to finally select E
 # - In the Shiny App the Select trial ID 7 (this file simulated 1 trial before starting as an example)
 PlotVirtualTrial( lVirtualTrials[[ nTrialID ]], nTrialID = nTrialID ) 
+
+ComputeOC(vResults, mQtyPats, vStopEarly)
