@@ -12,7 +12,7 @@
 #
 #   Author: J. Kyle Wathen, PhD
 #           KyleWathen@gmail.com
-#####################################################################################################################################
+#####################################################################################################################################.
 
 #####################################################################################################################################.
 #   Define any functions needed
@@ -26,12 +26,17 @@
 #    R code was copied from AnalysisMethods.R
 #####################################################################################################################################.
 
+# The next line will remove the contents of the work space.  This is done to 
+# reduce the likelihood of bugs or inadvertently using a variable in the global 
+# environment rather than a local function due to a typo
+remove( list=ls() )
+
 # Compare 2 Beta distributions
-# Calculate the probability that one beta dist. is greater than another
+# Assume 
 # Q1 ~ Beta( dA1, dB1 )
 # Q2 ~ Beta( dA2, dB2 )
-# This function computes the Probability( Q1 > Q2 )
-IneqCalcBeta <- function(dA1,dB1,dA2,dB2) 
+# ProbabilityX1GreaterX2  computes the Probability( Q1 > Q2 )
+ProbabilityX1GreaterX2 <- function(dA1,dB1,dA2,dB2) 
 {
     ## 
     
@@ -44,18 +49,18 @@ fBetaIneqCalc <- function(x, dA1, dB1, dA2, dB2){x**(dA1-1) * (1-x)**(dB1-1) * p
 
 
 # This version is implemented to allow apply to be used rather than looping through each virual trial
-IneqCalcBetaVect <- function( vParams )
+ProbabilityX1GreaterX2Vect <- function( vParams )
 {
-    return( IneqCalcBeta( vParams[1], vParams[2], vParams[3], vParams[4]) )
+    return( ProbabilityX1GreaterX2( vParams[1], vParams[2], vParams[3], vParams[4]) )
 }
 
 
 #####################################################################################################################################.
-##### Example 1 - Simple approach for simulating example 1                                                                      #####
+#     Example 1 - Simple approach for simulating example 1                                                                      #####
 #####################################################################################################################################.
 
 
-##### Setup Simulation Parameters #####
+# Setup Design Parameters #####
 
 nMaxQtyOfPats   <- 200      # The maximum quantity of patients to enroll in the study that will be equally randomized
 
@@ -71,13 +76,17 @@ dPriorBE        <- 0.8
 dPU             <- 0.90   
 
 
+
+# Setup Simulation Parameters #####
 #Create the "true" parameter values for a scenario
 dTrueRespRateS  <- 0.2      # A true response rate of 0.2 for S
 dTrueRespRateE  <- 0.4      # A true response rate of 0.4 for E
 
 nQtyReps        <- 1000     # The number of virtual trials to simulate
 
-##### Start Simulation  #####
+
+
+# Start Simulation  #####
 # Because this is a fixed sample trial we only need to simulate the number of patients in each treatment
 # the number of responders/non-responders on each treatment and then compute the posterior probabilities.
 # Note: this approach would be much more difficult if the design included frequent monitoring. 
@@ -94,6 +103,7 @@ vFailE          <- vQtyPatsE - vRespE
 vRespS          <- rbinom( rep(1, nQtyReps), vQtyPatsS, rep( dTrueRespRateS, nQtyReps) )
 vFailS          <- vQtyPatsS - vRespS
 
+
 #For the Beta-Binomial model the posterior is Beta( dPriorA + #success, dPriorB + # of failures)
 vPostAS         <- dPriorAS + vRespS
 vPostBS         <- dPriorBS + vFailS
@@ -102,7 +112,20 @@ vPostAE         <- dPriorAE + vRespE
 vPostBE         <- dPriorBE + vFailE
 
 mPostParams     <- cbind( vPostAE, vPostBE, vPostAS, vPostBS )  #The order combined into columns means we will calculate Pr( Q_E > E_S | data ) 
-vPostProbs      <- apply( mPostParams, 1, IneqCalcBetaVect )
+vPostProbs      <- rep( -1, nQtyReps )
+
+
+#Option 1 - Less efficient version, easier to follow for beginners. 
+for( nRep in 1:nQtyReps )
+{
+    vPostProbs[ nRep ] <- ProbabilityX1GreaterX2( vPostAE[ nRep ], vPostBE[ nRep ], vPostAS[ nRep ], vPostBS[ nRep ] )
+}
+
+
+# A more efficient version
+# vPostProbs      <- apply( mPostParams, 1, ProbabilityX1GreaterX2Vect )
+
+
 #Note - if you are not familiar with apply, this could be accomplished via a for or repeat loop
 
 #Summarize based on vPostProbs - eg compute the probability the values were above the cutoff. 
@@ -110,10 +133,11 @@ vProbSelE       <- mean( ifelse( vPostProbs > dPU, 1, 0 ))
 vProbSelS       <- mean( ifelse( ( 1 -vPostProbs ) > dPU, 1, 0 ))
 vProbNoTrt      <- 1.0 - vProbSelE  - vProbSelS
 
-##### Print the Operating Characteristics #####
+#   Print the Operating Characteristics #####
 print( paste( "The probability the trial will select no treatment is ", vProbNoTrt ))
 print( paste( "The probability the trial will select S is ", vProbSelS ))
 print( paste( "The probability the trial will select E is ", vProbSelE ))
 
 print( paste("The average number of patient on S is ", mean( vQtyPatsS )))
 print( paste("The average number of patient on E is ", mean( vQtyPatsE )))
+

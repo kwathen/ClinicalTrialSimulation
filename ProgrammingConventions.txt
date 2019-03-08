@@ -1,0 +1,104 @@
+This file provides a list of programming conventions used in this library.
+
+For this library each developer is expected to utilize source control.  If you commit code that has a know bug or is not complete it should return an error and stop execution until you complete it.    That is, if you are in the middle of developing something and another user calls the function it should stop the execution and alert the caller that the function is not complete.  It is best to only to push complete working code to the repository.
+
+File Naming Convention
+In general, a file should contain a function or functions to complete a specific task.   File names should be the same as the primary function in the file.   For example, if the function name is Foo then the file name should be Foo.R.   If the file contains S3 method and the package will only contain one specific instance of the function then one file is acceptable, otherwise if the packages provides several specific instances of the function then each function should be in separate file.  For example, RunSimulation is found in RunSimulatin.R and is an S3 method with only the RunSimulation.default defined in this package so having both the function definition and RunSimulation.default in the same file is acceptable. In contrast, RunAnalysis has several version such as RunAnalysis.RankedPerDose.R that perform specific analysis and each analysis is contained is separate files.  If a function calls another function that is not called from anywhere else it is acceptable to place both functions in the same file.  This file naming approached is intended to help developers find what they are looking for easier and to help aid in easy to follow testing.
+
+
+Helpful links
+
+======   Source Control ( Git )  =======
+https://git-scm.com/book/en/v1/Getting-Started-About-Version-Control, or https://backlog.com/git-tutorial/  - Introductions
+
+https://git-for-windows.github.io/  - Git for Windows, I believe you need to install this to use source control
+
+https://tortoisegit.org/  - Free Window shell program (runs in Windows explorer by Right clicking on a folder/file)
+
+https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control - Great starting intro to Git and source control.  There is a "Chapters" link that allows for navigation to specific points.
+
+
+https://git-scm.com/docs/gittutorial
+
+https://www.atlassian.com/git/tutorials/setting-up-a-repository
+
+
+
+===== Programming Conventions =====
+
+1. Use descriptive names for functions and variables.
+
+2. Try to make functions short with a specific task.  Add comments to describe the function purpose, inputs and outputs.
+
+3. Balance between readability and efficiency.  When given the option between the two following development approaches:  1) a really efficient, very difficult to follow and understand approach vs 2) a less efficient easily understood option,  ALWAYS take the less efficient option that is easy to follow and less likely to have bugs.
+
+4. Avoid using . in function and variable names.  This is because a . in a name can cause issues with finding names and syntax highlighting.
+
+5. Function names should be camel case (first letter of important words are capital, no spaces) eg RunAnalysis, MakeDecision are both better than run_analysis or run.ana.
+
+6.  Functions should be self contained and only depend on the arguments.  They should NOT use variables in a higher scope.  A call
+to a function with the same arguments should always return the same value, unless the function is supposed to produce random variables ect
+For example,
+
+    #######
+    #VERY BAD STYLE -  What this function returns depends on what y was before the call
+    #######
+    MyFunction <- function( x )
+    {
+        x <- x + y
+        return( x )
+    }
+
+    y <- 5
+    MyFunction( 4 )   # return 9
+    y <- 10
+    MyFunction( 4 )    #returns 14
+
+    #######
+    #Acceptable example - a call to the function only depends on arguments
+    #######
+    MyFunction2 <- function( x, y )
+    {
+        x <- x + y
+        return( x )
+    }
+
+    y <- 5
+    MyFunction2( 4, 7 )   # return 11
+    y <- 10
+    MyFunction2( 4, 7 )    #returns 7
+
+
+7. Use the following prefixes to help other understand what you are doing with a variable
+     a.  Prefix integer variable with an n then camel case, eg nQtyOfReps would be an integer variable for the quantity of replications, nQtyOfPats = quantity of patients
+     b. Prefix double of float variables with d, eg dMean would be a double/float variable for mean.
+     c. Prefix vectors with v, eg vMeans would be a vector of means
+     d. Prefix matrix with m, eg mVarCov would be a matrix for the variance-covariance.
+     e. Prefix list with a l, eg lData would be list of data
+     f. Prefix a class variable with a c, eg cAnalysis = structure( list(), class= "TTest"" )
+
+8. This library is developed using S3 classes.  If a function is a generic and there is no natural .default the Function.default should be defined and should stop execution so that it is clear if a user inadvertently calls it.
+
+9.  Adding a todo item should follow the following format
+    # TODO([users name])   #####
+
+10.  If you are adding a comment blocks that start with a series of ###s please make sure to put a . at the end.  This is to help with document outlining in R studio.
+
+11.  For developers using R Studio, if you want something to show up in the document outline you can add # for a comment line and end with 4 # and it will show the item in the document outline.  For example,
+
+#  Important comment ####
+
+would add an item in the document outline that shows as Important comment.
+
+Test Code Convention
+1.  All tests are developed utilizing testthat, see the HelpfulLinks document for a link and more about testthat.
+2.  Each file should have a corresponding test file in the tests/testthat sub-directory.   For example, R/MakeDecision.R has a corresponding file tests/testthat/test_MakeDecision.R where the TestDecisions.R has various tests for the functions in Decisions.R
+For example, sourcing the "TestDecisions.R" file  would return the following output.
+
+> test_file( "tests/testthat/test_MakeDecision.R")
+√ | OK F W S | Context
+√ | 81       | Test - MakeDecision.R [3.8 s]
+
+3. With the WD at the Package directory, you can use
+        test_file( "tests/testthat/test_TrialMonitor.R")  -- To execute the tests in one file
+        devtools::test() to execute all the testthat tests in the package.

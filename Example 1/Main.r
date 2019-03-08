@@ -1,4 +1,4 @@
-################################################################################################################################################
+###### File Header ##############################################################################################################################
 #   This is the main file for conducting the simulation.
 #
 #   Example 1
@@ -16,7 +16,7 @@
 #
 #   Author: J. Kyle Wathen, PhD
 #           kylewathen@gmail.com
-################################################################################################################################################
+###############################################################################################################################################.
 
 # The next line will remove the contents of the work space.  This is done to 
 # reduce the likelihood of bugs or inadvertently using a variable in the global 
@@ -31,8 +31,10 @@ source( "Functions.R")
 source( "Randomizer.R")
 
 
-# Define the input variables.  Helpful to define variables so they can easily be modified without
-# changing values in the program
+
+# Setup Design Parameters #####
+
+# Helpful to define variables so they can easily be modified without changing values in the program
 
 nMaxQtyOfPats       <- 200      # The maximum quantity of patients to enroll in the study that will be fairly randomized
 dQtyPatsPerMonth    <- 7.5      # Number of patients that will be enrolled each month, expectation is 7.5 patients per month
@@ -48,7 +50,7 @@ dPriorBE     <- 0.8
 # Pr( Q_E > E_S | data ) > dPU
 dPU             <- 0.90   
 
-
+# Setup Simulation Parameters #####
 #Create the "true" parameter values for a scenario
 dTrueRespRateS  <- 0.2      # A true response rate of 0.2 for S
 dTrueRespRateE  <- 0.4      # A true response rate of 0.4 for E
@@ -59,8 +61,11 @@ nQtyReps        <- 1000     # The number of virtual trials to simulate
 lSimulatedTrial <- SimulateSingleTrial( nMaxQtyOfPats,  dQtyPatsPerMonth,  dPriorAS,  dPriorBS, dPriorAE, dPriorBE,  
                                         dPU, dTrueRespRateS, dTrueRespRateE  )
 
+#Results varialbes
 vResults        <- rep( NA, nQtyReps )
 mQtyPats        <- matrix( NA, ncol=2, nrow = nQtyReps)
+
+# Start Simulation  #####
 
 for( i in 1:nQtyReps )
 {
@@ -72,7 +77,7 @@ for( i in 1:nQtyReps )
     mQtyPats[ i, ]  <- lSimulatedTrial$vQtyPats
 }
 
-#Create simple summaries
+#   Print the Operating Characteristics #####
 
 print( paste( "The probability the trial will select no treatment is ", length( vResults[ vResults == 1])/ nQtyReps))
 print( paste( "The probability the trial will select S is ", length( vResults[ vResults == 2])/ nQtyReps))
