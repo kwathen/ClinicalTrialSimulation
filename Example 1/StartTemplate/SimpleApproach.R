@@ -31,28 +31,17 @@
 # environment rather than a local function due to a typo
 remove( list=ls() )
 
-# Compare 2 Beta distributions
+# Develop a function to compare 2 Beta distributions
 # Assume 
 # Q1 ~ Beta( dA1, dB1 )
 # Q2 ~ Beta( dA2, dB2 )
-# ProbabilityX1GreaterX2  computes the Probability( Q1 > Q2 )
+# ProbabilityX1GreaterX2  computes the Probability( Q1 > Q2 ) and returns it
 ProbabilityX1GreaterX2 <- function(dA1,dB1,dA2,dB2) 
 {
-    ## 
-    
-    res <- integrate(fBetaIneqCalc,0,1, dA1 = dA1, dB1 = dB1, dA2 = dA2, dB2 = dB2)
-    res$value
+    # Add code here to perform this calculation #####
+    # Hint: This can be done in by simulating from both distributions and comparing or by integration
 }
 
-#Helper functions 
-fBetaIneqCalc <- function(x, dA1, dB1, dA2, dB2){x**(dA1-1) * (1-x)**(dB1-1) * pbeta(x,dA2,dB2) / beta(dA1,dB1)}
-
-
-# This version is implemented to allow apply to be used rather than looping through each virual trial
-ProbabilityX1GreaterX2Vect <- function( vParams )
-{
-    return( ProbabilityX1GreaterX2( vParams[1], vParams[2], vParams[3], vParams[4]) )
-}
 
 
 #####################################################################################################################################.
@@ -61,30 +50,25 @@ ProbabilityX1GreaterX2Vect <- function( vParams )
 
 
 # Setup Design Parameters #####
+# Design parameters are the variables that determine the design, such as, number of patient, prior parameters and cutoff for decision making
 
 nMaxQtyOfPats   <- 200      # The maximum quantity of patients to enroll in the study that will be equally randomized
 
 #Priors: Q_S ~ Beta( 0.2, 0.8 ); Q_E ~ Beta( 0.2, 0.8 )
-dPriorAS        <- 0.2  
-dPriorBS        <- 0.8
 
-dPriorAE        <- 0.2  
-dPriorBE        <- 0.8
+# Add code here to define parameters #####
 
 # Decision criteria  At the end of the study E will be selected if
 # Pr( Q_E > E_S | data ) > dPU
-dPU             <- 0.90   
+
+# Add code here to define cutoff #####
 
 
 
 # Setup Simulation Parameters #####
-#Create the "true" parameter values for a scenario
-dTrueRespRateS  <- 0.2      # A true response rate of 0.2 for S
-dTrueRespRateE  <- 0.4      # A true response rate of 0.4 for E
+# Create the "true" parameter values for a scenario, such as the true response rate on S or E and the number of virtual trials to simulate
 
-nQtyReps        <- 1000     # The number of virtual trials to simulate
-
-
+# Add code here to define the parameters #####
 
 # Start Simulation  #####
 # Because this is a fixed sample trial we only need to simulate the number of patients in each treatment
@@ -96,48 +80,38 @@ vQtyPatsE       <- rbinom( nQtyReps, nMaxQtyOfPats, 0.5 )   #Fairly randomize pa
                                                             #the number of patient receiving E in the virtual trial
 vQtyPatsS       <- nMaxQtyOfPats - vQtyPatsE
 
-#Simulate the number of responses
-vRespE          <- rbinom( rep(1, nQtyReps), vQtyPatsE, rep( dTrueRespRateE, nQtyReps) )
-vFailE          <- vQtyPatsE - vRespE
 
-vRespS          <- rbinom( rep(1, nQtyReps), vQtyPatsS, rep( dTrueRespRateS, nQtyReps) )
-vFailS          <- vQtyPatsS - vRespS
+# Simulate the number of responses on each treatment
 
+# Add code here to simulate responses #####
 
 #For the Beta-Binomial model the posterior is Beta( dPriorA + #success, dPriorB + # of failures)
-vPostAS         <- dPriorAS + vRespS
-vPostBS         <- dPriorBS + vFailS
 
-vPostAE         <- dPriorAE + vRespE
-vPostBE         <- dPriorBE + vFailE
+# Add code here to compute the posteriors based on the above simulated data #####
+# Name the vectors for the posteriors vPostAE, vPostBE for E and vPostAS and vPostBS for S to utilize the code below
 
 mPostParams     <- cbind( vPostAE, vPostBE, vPostAS, vPostBS )  #The order combined into columns means we will calculate Pr( Q_E > E_S | data ) 
 vPostProbs      <- rep( -1, nQtyReps )
 
 
-#Option 1 - Less efficient version, easier to follow for beginners. 
+#Go through each element (simulated trial) and compute  Pr( Q_E > E_S | data )
 for( nRep in 1:nQtyReps )
 {
     vPostProbs[ nRep ] <- ProbabilityX1GreaterX2( vPostAE[ nRep ], vPostBE[ nRep ], vPostAS[ nRep ], vPostBS[ nRep ] )
 }
 
 
-# A more efficient version
-# vPostProbs      <- apply( mPostParams, 1, ProbabilityX1GreaterX2Vect )
-
-
-#Note - if you are not familiar with apply, this could be accomplished via a for or repeat loop
-
 #Summarize based on vPostProbs - eg compute the probability the values were above the cutoff. 
+# Note: this approach allows you to try different dPU cutoff values without simulating and computing again.
+
 vProbSelE       <- mean( ifelse( vPostProbs > dPU, 1, 0 ))
-vProbSelS       <- mean( ifelse( ( 1 -vPostProbs ) > dPU, 1, 0 ))
-vProbNoTrt      <- 1.0 - vProbSelE  - vProbSelS
+
+# Add code here to compute the probability of select S (vProbSelS) and probability of selecting no treatment (vProbNoTrt)#####
 
 #   Print the Operating Characteristics #####
 print( paste( "The probability the trial will select no treatment is ", vProbNoTrt ))
 print( paste( "The probability the trial will select S is ", vProbSelS ))
 print( paste( "The probability the trial will select E is ", vProbSelE ))
 
-print( paste("The average number of patient on S is ", mean( vQtyPatsS )))
-print( paste("The average number of patient on E is ", mean( vQtyPatsE )))
+# Add code here to compute the average number of patients on each treatment #####
 
