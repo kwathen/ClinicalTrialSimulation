@@ -86,7 +86,7 @@ For example,
 
 11.  For developers using R Studio, if you want something to show up in the document outline you can add # for a comment line and end with 4 # and it will show the item in the document outline.  For example,
 
-#  Important comment #####
+#  Important comment ####
 
 would add an item in the document outline that shows as Important comment.
 
@@ -99,4 +99,6 @@ For example, sourcing the "TestDecisions.R" file  would return the following out
 √ | OK F W S | Context
 √ | 81       | Test - MakeDecision.R [3.8 s]
 
-
+3. With the WD at the Package directory, you can use
+        test_file( "tests/testthat/test_TrialMonitor.R")  -- To execute the tests in one file
+        devtools::test() to execute all the testthat tests in the package.
