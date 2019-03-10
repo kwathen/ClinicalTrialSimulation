@@ -36,26 +36,27 @@ source( "Randomizer.R")
 
 # Helpful to define variables so they can easily be modified without changing values in the program
 
-nMaxQtyOfPats       <- 200      # The maximum quantity of patients to enroll in the study that will be fairly randomized
-dQtyPatsPerMonth    <- 7.5      # Number of patients that will be enrolled each month, expectation is 7.5 patients per month
+# Add code here  to define parameters for the maximum number of patient and expected number of patient accrued each month ####
+
 
 #Priors: Q_S ~ Beta( 0.2, 0.8 ); Q_E ~ Beta( 0.2, 0.8 )
 dPriorAS     <- 0.2  
 dPriorBS     <- 0.8
 
-dPriorAE     <- 0.2  
-dPriorBE     <- 0.8
+# Add code here  to define prior parameters for E ####
+
 
 # Decision criteria  At the end of the study E will be selected if
 # Pr( Q_E > E_S | data ) > dPU
-dPU             <- 0.90   
+
+# Add code here  to define cutoff dPU ####
+
 
 # Setup Simulation Parameters #####
 #Create the "true" parameter values for a scenario
-dTrueRespRateS  <- 0.2      # A true response rate of 0.2 for S
-dTrueRespRateE  <- 0.4      # A true response rate of 0.4 for E
 
-nQtyReps        <- 1000     # The number of virtual trials to simulate
+# Add code here to define the parameters #####
+
 
 #It is often best to simulate a single trial and look at the result many times, before launching a loop with many virtual trial
 lSimulatedTrial <- SimulateSingleTrial( nMaxQtyOfPats,  dQtyPatsPerMonth,  dPriorAS,  dPriorBS, dPriorAE, dPriorBE,  
@@ -73,18 +74,12 @@ for( i in 1:nQtyReps )
     lSimulatedTrial <- SimulateSingleTrial( nMaxQtyOfPats,  dQtyPatsPerMonth,  dPriorAS,  dPriorBS, dPriorAE, dPriorBE,  
                                             dPU, dTrueRespRateS, dTrueRespRateE  )
    
-    vResults[ i ]   <- lSimulatedTrial$nDecision
-    mQtyPats[ i, ]  <- lSimulatedTrial$vQtyPats
+    
+    # Add code here to capture the results based on lSimulatedTrial #####
 }
 
 #   Print the Operating Characteristics #####
+# Add code here to use vResults and mQtyPats to calculate the operating charateristcs. 
 
-print( paste( "The probability the trial will select no treatment is ", length( vResults[ vResults == 1])/ nQtyReps))
-print( paste( "The probability the trial will select S is ", length( vResults[ vResults == 2])/ nQtyReps))
-print( paste( "The probability the trial will select E is ", length( vResults[ vResults == 3])/ nQtyReps))
-
-vAveQtyPats <- apply( mQtyPats, 2, mean)
-print( paste("The average number of patient on S is ", vAveQtyPats[1]))
-print( paste("The average number of patient on E is ", vAveQtyPats[2]))
 
 

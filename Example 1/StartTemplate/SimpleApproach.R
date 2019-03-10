@@ -57,6 +57,8 @@ nMaxQtyOfPats   <- 200      # The maximum quantity of patients to enroll in the 
 #Priors: Q_S ~ Beta( 0.2, 0.8 ); Q_E ~ Beta( 0.2, 0.8 )
 
 # Add code here to define parameters #####
+dPriorAS <- 0.2
+dPriorBS <- 0.8
 
 # Decision criteria  At the end of the study E will be selected if
 # Pr( Q_E > E_S | data ) > dPU

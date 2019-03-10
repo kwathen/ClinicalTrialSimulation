@@ -1,12 +1,28 @@
-################################################################################################################################################
+########## File Header #########################################################################################################################
 #
 #   Example 1
 #
-#   Description: This file contains functions for simulating a virtual trial.
+#   Description:    This file contains functions for simulating a virtual trial.
 #
+#   Input           nMaxQtyOfPatient    The maximum number of patients in the trial
+#                   dQtyPatsPerMonth    The expected number of patients accrued each month
+#                   dPriorAS, dPriorBS  Prior parameters for S where Q_S ~ Beta( dPriorAS, dPriorBS ) a priori 
+#                   dPriorAE, dPriorBE  Prior parameters for S where Q_S ~ Beta( dPriorAE, dPriorBE ) a priori 
+#                   dPU                 Select treatment i if Pr( Q_i > Q_j | data ) > dPU
+#                   dTrueRespRateS      The true response rate for S
+#                   dTrueRespRateE      The true response rate for E
+#
+#                   Return              A list with the following items
+#                                       nDecision with 1 if no treatment is selected, 2 if E is selected 3 if S is selected, 
+#                                       dProbEGrtS = Probability that Q_E > Q_E based on the simulated trial
+#                                       vQtyPats = Number of patients on S and E 
+#                                       vPatOutcome = Vector of patient outcome with 1 for response, 0 otherwise, 
+#                                       nTreat = Treatment the patient received, 0 for S and 1 for E
+#                                       vStartTime = vector of start times, in months, for each patient
+#                                       vObsTime = a vector of times, in months, that each patient outcome is observed
 #   Author: J. Kyle Wathen, PhD
 #           kylewathen@gmail.com
-################################################################################################################################################
+################################################################################################################################################.
 
 SimulateSingleTrial <- function( nMaxQtyOfPats, dQtyPatsPerMonth,
                                  dPriorAS, dPriorBS,

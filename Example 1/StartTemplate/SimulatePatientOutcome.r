@@ -1,15 +1,13 @@
-################################################################################################################################################
+########## File Header #########################################################################################################################
 #   Example 1
 #
-#   Description: 		This file contains functions for simulating the patient data.
+#   Description: 	This file contains functions for simulating the patient data.
 #
-#   Analysis Method:    Bayesian Beta-Binomial model
-#                       Assume patients receiving treatment j = S or E have a response probability Q_j
-#                       Prior: Q_j ~ Beta( a_j, b_j )
+#   Input           nTreat          Treatment the patient received, 0 for S and 1 for E
+#                   dTrueRespRateS  The true response rate for S
+#                   dTrueRespRateE  The true response rate for E
 #
-#   Decision Criteria:  At the end of the study E will be selected if
-#                       Pr( Q_E > E_S | data ) > dPU
-#
+#   Return          nOutcome a 1 if the patient response, 0 otherwise
 #   Author: J. Kyle Wathen, PhD
 #           kylewathen@gmail.com
 ################################################################################################################################################
@@ -17,12 +15,7 @@
 SimulatePatientOutcome <- function( nTreat, dTrueRespRateS, dTrueRespRateE )
 {
     nOutcome <- NA
-    if( nTreat == 0 )  # Patient received S
-        nOutcome <- rbinom(1, 1, dTrueRespRateS )
-    else if( nTreat == 1 )# Patient received E
-        nOutcome <- rbinom(1, 1, dTrueRespRateE )
-    else #There was an error in the input
-        stop( paste( "Error: In function SimulatePatientOutcome an invalid nTeat = ", nTeat, " was sent into the function.  nTreat must be 0 or 1.") )
-    
+   
+    #Add code here to simulate the patient outcome, nOutcome, based on the treatment received. 
     return( nOutcome )
 }

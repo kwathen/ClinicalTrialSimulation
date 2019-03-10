@@ -1,14 +1,13 @@
 ################################################################################################################################################
 #   Example 1
 #
-#   Description: 		This file contains functions for simulating the patient data.
+#   Description: 	This file contains functions for simulating the patient data.
 #
-#   Analysis Method:    Bayesian Beta-Binomial model
-#                       Assume patients receiving treatment j = S or E have a response probability Q_j
-#                       Prior: Q_j ~ Beta( a_j, b_j )
+#   Input           nTreat          Treatment the patient received, 0 for S and 1 for E
+#                   dTrueRespRateS  The true response rate for S
+#                   dTrueRespRateE  The true response rate for E
 #
-#   Decision Criteria:  At the end of the study E will be selected if
-#                       Pr( Q_E > E_S | data ) > dPU
+#   Return          nOutcome a 1 if the patient response, 0 otherwise
 #
 #   Author: J. Kyle Wathen, PhD
 #           kylewathen@gmail.com

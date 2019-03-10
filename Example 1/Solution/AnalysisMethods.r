@@ -1,12 +1,21 @@
-################################################################################################################################################
+######## File Header ###########################################################################################################################
 #
 #   Example 1
 #
 #   Description: This file contains functions for running any analysis. 
 #
+#   Input Arguments:
+#       dCurrentTime    The current time in the virtual trial
+#       vPatOutcome     A vector of patient outcomes, elements are 1 of the patient is a response and 0 otherwise.   
+#       vTreat          A vector of the treatment the patient received, 0 for S, 1 for E
+#       vObsTime        A vector of the times the outcome are observed, patient outcomes are observed sometime after enrollment
+#       dPriorAS, dPriorBS  prior parameters for S where Q_S ~ Beta( dPriorAS, dPriorBS ) a priori 
+#       dPriorAE, dPriorBE  prior parameters for S where Q_S ~ Beta( dPriorAE, dPriorBE ) a priori 
+#   
+#   Return: The Pr( Q_S > Q_E | data )
 #   Author: J. Kyle Wathen, PhD
 #           kylewathen@gmail.com
-################################################################################################################################################
+################################################################################################################################################.
 
 RunAnalysis <- function(  dCurrentTime, vPatOutcome, vTreat, vObsTime, dPriorAS,dPriorBS, dPriorAE, dPriorBE  )
 {
