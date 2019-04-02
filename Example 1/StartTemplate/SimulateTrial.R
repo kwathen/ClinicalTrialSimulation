@@ -32,15 +32,17 @@ SimulateSingleTrial <- function( nMaxQtyOfPats, dQtyPatsPerMonth,
                                  dTrueRespRateS,
                                  dTrueRespRateE   )
 {
-    #Setup the variables needed in this function
-    vPatOutcome <- rep( NA, nMaxQtyOfPats )       # Vector that contains the patients outcome
-    vTreat      <- rep( NA, nMaxQtyOfPats )       # Vector that contains the patients treatment S = 0, E = 1
-    vQtyPats    <- rep( 0, 2 )                    # Vector to keep track of the number of patients on S and E 
+    # Add code here to setup the variables needed in this function
+    vPatOutcome <- rep( NA, _________ )           # Vector that contains the patients outcome
+    vTreat      <- rep( NA, _________ )           # Vector that contains the patients treatment S = 0, E = 1
+    vQtyPats    <- rep( 0, 2 )                    # Vector to keep track of the number of patients on S and E, column 1 is is, column 2 is E 
     
     # Simulate arrival times and times the outcomes are observed
     # Add code to simulate start times for each patient (vStartTime) and observed time of outcome 1 month after starting the trial (vObsTime) #####
-    # Make sure to make use of SimulateArrivalTimes(..)
- 
+    # Note: Make sure to make use of SimulateArrivalTimes(..)
+    vStartTime  <- SimulateArrivalTimes( ____________, ____________ )
+    vObsTime    <- _________ + 1  # Note: In this example we observe the outcome 1 month after they enroll (or are treated)
+    
 
     #For loop to randomize and simulate the patient outcomes.
     #Note: In this example this could be done easier, but this is a building block for when we want to update randomization before each patient
@@ -48,12 +50,21 @@ SimulateSingleTrial <- function( nMaxQtyOfPats, dQtyPatsPerMonth,
     {
         # Add code here to fill in vTreat, vPatOutcome and vQtyPats #####
         # Hint: Use the functions GetTreatment and SimulatePatientOutcome
+        vTreat[ i ]                 <- ___________( 0.5 )   #For this example the randomization probability is always 0.5
+        vPatOutcome[ i ]            <- ___________( ________[ i ], dTrueRespRateS, ________________ ) 
+        
+        vQtyPats[ vTreat[ i ] + 1 ] <- vQtyPats[ vTreat[ i ] + 1 ] + 1
       
     }
     
     # Add code here to to compute the time of the analysis after the last outcome is observed ####
     # Also compute dProbSGrtE, dProbEGrtS and make a decision based on this probabilities
-    # Hint: Use the functions RunAnalysis and MakeDecision
+    # Hint: Use the functions RunAnalysis and MakeDecision and check the functions to make sure the parameters are in the correct order
+    dCurrentTime    <- vObsTime[ nMaxQtyOfPats ] + 0.00001  #Adding 0.0001 to make sure all patient outcomes are observed
+    dProbSGrtE      <- _________( _______, _______, ______, __________, dPriorAS,dPriorBS, dPriorAE, dPriorBE )
+    dProbEGrtS      <- 1.0 - ___________
+    
+    nDecision       <- ___________( dPU, __________, ________ )
 
     #Build the return list - in a large scale simulation you may not want to return the patient data but could
     # be good to return it so you could plot each virtual trial.  

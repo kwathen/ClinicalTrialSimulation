@@ -60,7 +60,7 @@ nQtyReps        <- 1000     # The number of virtual trials to simulate
 #It is often best to simulate a single trial and look at the result many times, before launching a loop with many virtual trial
 lSimulatedTrial <- SimulateSingleTrial( nMaxQtyOfPats,  dQtyPatsPerMonth,  dPriorAS,  dPriorBS, dPriorAE, dPriorBE,  
                                         dPU, dTrueRespRateS, dTrueRespRateE  )
-
+lSimulatedTrial$
 #Results varialbes
 vResults        <- rep( NA, nQtyReps )
 mQtyPats        <- matrix( NA, ncol=2, nrow = nQtyReps)

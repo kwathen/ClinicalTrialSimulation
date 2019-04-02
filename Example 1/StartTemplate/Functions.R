@@ -16,6 +16,9 @@ SimulateArrivalTimes <- function( dPatsPerMonth, nMaxQtyPats )
     # Hint: if x1, x2,..., are simulated from an exponential( rate = patients per month) distribution 
     # then the sum( x1...) would represent Poisson process with correct number of patients arriving each time unit
     
+    #Note: cumsum - Returns a vector whose elements are the cumulative sums of the elements of the argument
+    
+    vTimes <- cumsum( rexp( ______, _____ ) )
     return( vTimes )
     
 }

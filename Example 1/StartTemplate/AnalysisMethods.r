@@ -20,17 +20,19 @@
 RunAnalysis <- function(  dCurrentTime, vPatOutcome, vTreat, vObsTime, dPriorAS,dPriorBS, dPriorAE, dPriorBE  )
 {
     #Set the posterior parameters = priors parameters then update the parameters
+    # Add code here to define posterior parameters for S #####
     #Example for S
     dPostAS <- dPriorAS
-    dPostBS <- dPriorBS
+    dPostBS <- _______
     
     # Add code here to define posterior parameters for E #####
-    
+    dPostAE <- _______
+    dPostBE <- _______
     
     # Need to loop through the data and update the prior parameters to the posterior parameters.
     # Typically, if building the dataset for analysis is more complicated it is best to create a function to perform that task.
    
-    nQtyPats <- length( vPatOutcome )
+    nQtyPats <- length( ______________ )
     for( iPat in 1:nQtyPats )
     {
         #We only want to include patient outcomes that were observed prior to dCurrentTime
@@ -38,18 +40,34 @@ RunAnalysis <- function(  dCurrentTime, vPatOutcome, vTreat, vObsTime, dPriorAS,
         
         if( vObsTime[ iPat ] <= dCurrentTime )
         {
-            #Add code here to update the posterior parameters based on what treatment the patient receives
+            # Add code here to update the posterior parameters based on what treatment the patient receives
             #Hint:  
             #if( treatment is S )
             #    Update the posterior parameters of S
             #else
             #   Update the posterior parameters of E
+            
+            if( vTreat[ iPat ] == ________ )  #Treatment S
+            {
+                dPostAS <- dPostAS + ___________
+                dPostBS <- dPostBS + (1 - vPatOutcome[ iPat ])
+                
+            }
+            else if( _______ == ________ )  #Treatment E
+            {
+                dPostAE <- dPostAE + vPatOutcome[ iPat ]
+                dPostBE <- dPostBE +  ___________
+                
+            }
+            else
+                stop( paste( "Error: In function RunAnalysis an invalid value in vTreat of ", vTreat[ iPat ], " was sent into the function. ") )
+            
                          
         }  
     }
   
-    #Add code here compute dProbSGrtE = Pr( Q_S > Q_E | data ) given the updated posterior parameters
-    
+    # Add code here compute dProbSGrtE = Pr( Q_S > Q_E | data ) given the updated posterior parameters
+    dProbSGrtE <- ___________( __________, __________, __________, __________ )
     return( dProbSGrtE )
 }
 

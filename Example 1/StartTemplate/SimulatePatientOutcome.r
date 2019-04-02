@@ -15,7 +15,15 @@
 SimulatePatientOutcome <- function( nTreat, dTrueRespRateS, dTrueRespRateE )
 {
     nOutcome <- NA
-   
-    #Add code here to simulate the patient outcome, nOutcome, based on the treatment received. 
+    
+    # Add code here to simulate the patient outcome, nOutcome, based on the treatment received.
+    if( nTreat == ______ )  # Patient received S
+        nOutcome <- rbinom(1, 1, ____________ )
+    else if( _____ == _____)# Patient received E
+        nOutcome <- _______(1, 1, _____________ )
+    else #There was an error in the input
+        return( NA )
+    #     stop( paste( "Error: In function SimulatePatientOutcome an invalid nTeat = ", nTreat, " was sent into the function.  nTreat must be 0 or 1.") )
+
     return( nOutcome )
 }

@@ -38,7 +38,7 @@ remove( list=ls() )
 # ProbabilityX1GreaterX2  computes the Probability( Q1 > Q2 )
 ProbabilityX1GreaterX2 <- function(dA1,dB1,dA2,dB2) 
 {
-    ## Calculate proability by integration
+    ## Calculate probability by integration
     
     res <- integrate(fBetaIneqCalc,0,1, dA1 = dA1, dB1 = dB1, dA2 = dA2, dB2 = dB2)
     res$value
