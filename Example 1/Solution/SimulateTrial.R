@@ -29,8 +29,7 @@ SimulateSingleTrial <- function( nMaxQtyOfPats, dQtyPatsPerMonth,
                                  dPriorAE, dPriorBE,
                                  dPU,
                                  dTrueRespRateS,
-                                 dTrueRespRateE
-                                 )
+                                 dTrueRespRateE   )
 {
     #Setup the variables needed in this function
     vPatOutcome <- rep( NA, nMaxQtyOfPats )       # Vector that contains the patients outcome

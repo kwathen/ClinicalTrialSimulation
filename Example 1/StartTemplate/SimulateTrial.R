@@ -24,7 +24,6 @@
 #           kylewathen@gmail.com
 ################################################################################################################################################.
 
-
 SimulateSingleTrial <- function( nMaxQtyOfPats, dQtyPatsPerMonth,
                                  dPriorAS, dPriorBS,
                                  dPriorAE, dPriorBE,
