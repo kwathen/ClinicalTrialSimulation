@@ -111,11 +111,11 @@
 remove( list=ls() )
 
 ##### Source files needed for project #####
-source( "SimulatePatientOutcome.R")
+source( "SimulatePatientOutcome.r")
 source( "SimulateTrial.R")
-source( "AnalysisMethods.R")
+source( "AnalysisMethods.r")
 source( "Functions.R")
-source( "Randomizer.R")
+source( "Randomizer.r")
 source( "StoppingRules.R")
 source( "PlotVirtualTrial.R" )
 source( "SimulateScenario.R" )
